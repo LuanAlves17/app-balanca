@@ -10,7 +10,7 @@ const Time = () => {
     useEffect(() => {
         const interval = setInterval(() => {
             const dateObj = new Date();
-            setDate(`${dateObj.getHours()}:${dateObj.getMinutes()}:${dateObj.getSeconds()}`);
+            setDate(`${String(dateObj.getHours()).padStart(2, '0')}:${String(dateObj.getMinutes()).padStart(2, '0')}:${String(dateObj.getSeconds()).padStart(2, '0')}`);
         }, 1000);
 
         return () => clearInterval(interval);
@@ -18,7 +18,7 @@ const Time = () => {
 
     return (
         <Text style={styles.time}>
-            <AntDesign name="clockcircleo" size={24} /> {date}
+            <AntDesign name="clockcircleo" size={24} />  {date}
         </Text>
     )
 }
@@ -29,12 +29,11 @@ const styles = StyleSheet.create({
     time: {
         display: 'flex',
         alignItems: 'center',
-        gap: 5,
-        color: 'green', 
+        gap: 10,
+        color: 'white', 
+        border: '1px solid',
         fontSize: 20,
-        backgroundColor: '#ffffff',
-        border: 0,
-        borderRadius: 4,
+        borderRadius: 0,
         paddingTop: 10,
         paddingLeft: 30,
         paddingBottom: 10,
