@@ -1,34 +1,35 @@
 import Card from "@/components/Card";
 import Header from "@/components/Header";
 import { DATA } from "@/data/db.test";
+
+import { ScrollView } from "react-native";
+
 import { FlatList, StyleSheet, View, Dimensions, Text } from "react-native";
 
 const { width } = Dimensions.get("window");
 
 const PageIndex = () => {
     return (
-        <View>
-            <Header />
-            <View style={styles.container}>
-                <Text style={styles.title}>Gerenciamento de Entradas e Saidas (Balança)</Text>
-
-                <FlatList
+        <ScrollView contentContainerStyle={{ flexGrow: 1 }}>
+        <Header />
+        <View style={styles.container}>
+            <Text style={styles.title}>Gerenciamento de Entradas e Saidas (Balança)</Text>
+            <FlatList
                 horizontal
-                    data={DATA}
-                    keyExtractor={(item) => item.id}
-                    renderItem={({ item }) => (
-                        <View style={styles.cardWrapper}>
-                            <Card {...item} />
-                        </View>
-                    )}
-                    contentContainerStyle={styles.listContainer}
-                    snapToAlignment="center"
-                    pagingEnabled
-                    showsHorizontalScrollIndicator={false}
-
-                />
-            </View>
+                data={DATA}
+                keyExtractor={(item) => item.id}
+                renderItem={({ item }) => (
+                    <View style={styles.cardWrapper}>
+                        <Card {...item} />
+                    </View>
+                )}
+                contentContainerStyle={styles.listContainer}
+                snapToAlignment="center"
+                pagingEnabled
+                showsHorizontalScrollIndicator={false}
+            />
         </View>
+    </ScrollView>
     );
 };
 
@@ -61,5 +62,6 @@ const styles = StyleSheet.create({
         width: Dimensions.get('screen').width * 0.9,
         justifyContent: 'center',
         
+        paddingBottom: 50,
     },
 });
