@@ -11,7 +11,7 @@ const CardHistory = ( { peso, placa, udm, acceptedAt }  : ObjectRequestDTO) => {
 
                 <Text style={styles?.peso}>{peso} {udm}</Text>
 
-                <Text style={styles?.acaoRegistrada}>Horario que o caminhao foi validado: <Text style={{ fontWeight: 'bold' }}>Aafwqefwg</Text></Text>        
+                <Text style={styles?.acaoRegistrada}>Horário de aprovação: <Text style={{ fontWeight: 'bold' }}>{acceptedAt}</Text></Text>        
             </View>
         </View>
     )

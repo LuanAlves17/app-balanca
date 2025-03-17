@@ -2,12 +2,15 @@ import { Dimensions, FlatList, Image, ScrollView, StyleSheet, Text, View } from 
 import Header from "@/components/Header";
 import CardHistory from "@/components/CardHistory";
 import { DATA } from "@/data/db.test";
+import { SafeAreaProvider, SafeAreaView } from "react-native-safe-area-context";
 
 const PageHistory = () => {
+    const dataAccept = DATA.filter((data) => data.accepted);
+
     return (
         <View style={styles.container}>
             <Header />
-            {DATA.length === 0 ? (
+            { dataAccept.length === 0 ? (
                 <ScrollView contentContainerStyle={styles.scrollContainer}>
                     <View style={styles.notfound}>
                         <Image source={require('@/assets/images/404s.svg')} style={styles.notFoundImage} />
@@ -15,17 +18,17 @@ const PageHistory = () => {
                     </View>
                 </ScrollView>
             ) : (
-                <FlatList
-                    data={DATA}
-                    keyExtractor={(item) => item.id}
-                    renderItem={({ item }) => (
-                        <View style={styles.cardWrapper}>
-                            <CardHistory {...item} />
-                        </View>
-                    )}
-                    contentContainerStyle={styles.listContainer}
-                    showsHorizontalScrollIndicator={true}
-                />
+                <SafeAreaProvider>
+                    <SafeAreaView style={styles.container} edges={['top']}>
+                        <FlatList
+                            data={dataAccept}
+                            keyExtractor={(item) => item.id}
+                            renderItem={({item}) => (
+                                <CardHistory {...item} />
+                            )}
+                        />
+                    </SafeAreaView>
+                </SafeAreaProvider>
             )}
         </View>
     );
@@ -36,20 +39,12 @@ export default PageHistory;
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        backgroundColor: "#ededed",
     },
     scrollContainer: {
         flexGrow: 1,
         justifyContent: 'center',
         alignItems: 'center',
         padding: 20,
-    },
-    listContainer: {
-        gap: 5,
-        alignItems: "center",
-    },
-    cardWrapper: {
-        width: Dimensions.get("screen").width * 0.9,
     },
     notfound: {
         flex: 1,

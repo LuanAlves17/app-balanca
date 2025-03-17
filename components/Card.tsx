@@ -1,30 +1,23 @@
 import { TouchableOpacity, Text, StyleSheet, View, Dimensions } from "react-native";
 import FontAwesome from "@expo/vector-icons/FontAwesome";
-import { DATA } from "@/data/db.test";
-import { ObjectRequestDTO } from "@/data/modeldraft/arch/ObjectRequestDTO";
 
 const { width } = Dimensions.get('window');
 
-const Card = ({ peso, placa, udm, acceptedAt }: ObjectRequestDTO) => {
-    async function handleSubmit(e: Event) {
-        e.preventDefault();
-
-        const DataFinded = DATA.find((data) => data.placa === placa)
-    }
+const Card = ({ id, peso, placa, udm, acceptedAt, onAccept }) => {
+    const handleSubmit = () => {
+        onAccept(id);
+    };
 
     return (
-        <View style={styles?.paper}>
-            <View style={styles?.cardContent}>
-                <Text style={styles?.cardTitle}>{placa}</Text>
-
-                <Text style={styles?.peso}>{peso} {udm}</Text>
-
-                <Text style={styles?.placa}></Text>
-
-                <View style={styles?.actions}>
-                    <TouchableOpacity style={styles?.button} onPress={handleSubmit}>
+        <View style={styles.paper}>
+            <View style={styles.cardContent}>
+                <Text style={styles.cardTitle}>{placa}</Text>
+                <Text style={styles.peso}>{peso} {udm}</Text>
+                <Text style={styles.signed}>Ainda não aprovado</Text>
+                <View style={styles.actions}>
+                    <TouchableOpacity style={styles.button} onPress={handleSubmit}>
                         <FontAwesome name="check" size={20} color="white" />
-                        <Text style={styles?.buttonText}>Aprovar</Text>
+                        <Text style={styles.buttonText}>Aprovar</Text>
                     </TouchableOpacity>
                 </View>
             </View>
@@ -68,8 +61,8 @@ const styles = StyleSheet.create({
         fontWeight: "400",
         marginVertical: 15,
     },
-    placa: {
-        fontSize: 18,
+    signed: {
+        fontSize: 17,
         paddingBottom: 15,
     },
     button: {
