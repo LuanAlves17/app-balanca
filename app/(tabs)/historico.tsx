@@ -1,6 +1,5 @@
 import { Dimensions, FlatList, Image, ScrollView, StyleSheet, Text, View } from "react-native";
 import Header from "@/components/Header";
-import { DATAFILTERED } from "@/data/filterdb.test";
 import CardHistory from "@/components/CardHistory";
 import { DATA } from "@/data/db.test";
 

@@ -1,21 +1,15 @@
 import { TouchableOpacity, Text, StyleSheet, View, Dimensions } from "react-native";
 import FontAwesome from "@expo/vector-icons/FontAwesome";
 import { DATA } from "@/data/db.test";
-import { DATAFILTERED } from "@/data/filterdb.test";
 import { ObjectRequestDTO } from "@/data/modeldraft/arch/ObjectRequestDTO";
 
-
 const { width } = Dimensions.get('window');
-
-
 
 const Card = ({ peso, placa, udm, acceptedAt }: ObjectRequestDTO) => {
     async function handleSubmit(e: Event) {
         e.preventDefault();
 
         const DataFinded = DATA.find((data) => data.placa === placa)
-
-        await DATAFILTERED.push(DataFinded);
     }
 
     return (
@@ -49,7 +43,7 @@ const styles = StyleSheet.create({
     },
     cardContent: {
         marginRight: 15,
-        width: width * 0.50,
+        width: width > 500 ? width * 0.50 : width * 0.90,
         height: 'auto',
         flexDirection: "column",
         justifyContent: "space-between",
