@@ -1,29 +1,44 @@
 import { TouchableOpacity, Text, StyleSheet, View, Dimensions } from "react-native";
 import FontAwesome from "@expo/vector-icons/FontAwesome";
+import { DATA } from "@/data/db.test";
+import { DATAFILTERED } from "@/data/filterdb.test";
 
 type Props = {
     unidade: string;
     peso: number;
     placa: string;
     udm: string;
+    actionRegistred: string;
 };
 
-const { width } = Dimensions.get("window");
+const { width } = Dimensions.get('window');
 
-const Card = ({ unidade, peso, placa, udm }: Props) => {
+
+
+const Card = ({ peso, placa, udm, actionRegistred }: Props) => {
+    async function handleSubmit(e: Event) {
+        e.preventDefault();
+
+        const DataFinded = DATA.find((data) => data.placa === placa)
+
+        await DATAFILTERED.push(DataFinded);
+
+
+    }
+
     return (
-        <View style={styles.paper}>
-            <View style={styles.cardContent}>
-                <Text style={styles.cardTitle}>{unidade}</Text>
+        <View style={styles?.paper}>
+            <View style={styles?.cardContent}>
+                <Text style={styles?.cardTitle}>{actionRegistred}</Text>
 
-                <Text style={styles.peso}>{peso} {udm}</Text>
+                <Text style={styles?.peso}>{peso} {udm}</Text>
 
-                <Text style={styles.placa}>Placa: <Text style={{ fontWeight: 'bold' }}>{placa}</Text></Text>
+                <Text style={styles?.placa}>Placa: <Text style={{ fontWeight: 'bold' }}>{placa}</Text></Text>
 
-                <View style={styles.actions}>
-                    <TouchableOpacity style={styles.button} onPress={() => alert("Botão pressionado!")}>
+                <View style={styles?.actions}>
+                    <TouchableOpacity style={styles?.button} onPress={handleSubmit}>
                         <FontAwesome name="check" size={20} color="white" />
-                        <Text style={styles.buttonText}>Aprovar</Text>
+                        <Text style={styles?.buttonText}>Aprovar</Text>
                     </TouchableOpacity>
                 </View>
             </View>
@@ -36,23 +51,21 @@ export default Card;
 const styles = StyleSheet.create({
     paper: {
         justifyContent: "center",
-        alignItems: "center",
-        width: width * 0.9, 
         maxWidth: 400,
-        height: 'auto'
+        height: 'auto',
+        padding: 10,
     },
     cardContent: {
-        maxWidth: 1000,
-        marginRight: 3,
-        width: "96%",
-        height: 400,
+        marginRight: 15,
+        width: width * 0.90,
+        height: 'auto',
         flexDirection: "column",
         justifyContent: "space-between",
-        shadowColor: "#bcbcbc",
+        shadowColor: "#c9c9c9",
         shadowOffset: { width: 0, height: 2 },
-        shadowOpacity: 0.8,
+        shadowOpacity: 0.67,
         shadowRadius: 2,
-        borderRadius: 10,
+        borderRadius: 0,
         backgroundColor: "#fff",
         padding: 20,
     },
@@ -65,7 +78,7 @@ const styles = StyleSheet.create({
     },
     peso: {
         textAlign: "center",
-        fontSize: 30,
+        fontSize: 50,
         fontWeight: "400",
         marginVertical: 15,
     },
@@ -74,8 +87,9 @@ const styles = StyleSheet.create({
         paddingBottom: 15,
     },
     button: {
-        backgroundColor: 'green',
-        width: "100%",
+        backgroundColor: 'rgb(10, 152, 57)',
+        width: "90%",
+        maxWidth: 400,
         paddingVertical: 12,
         borderRadius: 50,
         flexDirection: "row",
@@ -89,8 +103,10 @@ const styles = StyleSheet.create({
         fontWeight: "500",
     },
     actions: {
-        width: "100%",
+        width: '100%',
+        justifyContent: 'center',
         alignItems: "center",
+        alignContent: 'center',
         marginTop: 15,
     },
 });

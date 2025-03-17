@@ -6,7 +6,8 @@ export default function RootLayout() {
   document.title = "Gestor de Entradas e Saidas | Mobile App"
   return (
       <Stack>
-        <Stack.Screen name="index" options={{ headerShown: false }} />
+        <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
+        <Stack.Screen name="index" options={{headerShown: false}}/>
       </Stack>
   );
 }
