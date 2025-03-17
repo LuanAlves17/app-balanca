@@ -2,38 +2,30 @@ import { TouchableOpacity, Text, StyleSheet, View, Dimensions } from "react-nati
 import FontAwesome from "@expo/vector-icons/FontAwesome";
 import { DATA } from "@/data/db.test";
 import { DATAFILTERED } from "@/data/filterdb.test";
+import { ObjectRequestDTO } from "@/data/modeldraft/arch/ObjectRequestDTO";
 
-type Props = {
-    unidade: string;
-    peso: number;
-    placa: string;
-    udm: string;
-    actionRegistred: string;
-};
 
 const { width } = Dimensions.get('window');
 
 
 
-const Card = ({ peso, placa, udm, actionRegistred }: Props) => {
+const Card = ({ peso, placa, udm, acceptedAt }: ObjectRequestDTO) => {
     async function handleSubmit(e: Event) {
         e.preventDefault();
 
         const DataFinded = DATA.find((data) => data.placa === placa)
 
         await DATAFILTERED.push(DataFinded);
-
-
     }
 
     return (
         <View style={styles?.paper}>
             <View style={styles?.cardContent}>
-                <Text style={styles?.cardTitle}>{actionRegistred}</Text>
+                <Text style={styles?.cardTitle}>{placa}</Text>
 
                 <Text style={styles?.peso}>{peso} {udm}</Text>
 
-                <Text style={styles?.placa}>Placa: <Text style={{ fontWeight: 'bold' }}>{placa}</Text></Text>
+                <Text style={styles?.placa}></Text>
 
                 <View style={styles?.actions}>
                     <TouchableOpacity style={styles?.button} onPress={handleSubmit}>
@@ -57,7 +49,7 @@ const styles = StyleSheet.create({
     },
     cardContent: {
         marginRight: 15,
-        width: width * 0.90,
+        width: width * 0.50,
         height: 'auto',
         flexDirection: "column",
         justifyContent: "space-between",

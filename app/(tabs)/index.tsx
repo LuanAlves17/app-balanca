@@ -37,7 +37,8 @@ export default PageIndex;
 
 const styles = StyleSheet.create({
     title: {
-        fontSize: 30,
+        color: 'green',
+        fontSize: '2rem',
         paddingTop: 20,
         paddingBottom: 20,
         display: 'flex',
@@ -48,7 +49,6 @@ const styles = StyleSheet.create({
     },
 
     container: {
-        flex: 1,
         height: 'auto',
         backgroundColor: "#ededed",
         justifyContent: 'center',
@@ -59,7 +59,7 @@ const styles = StyleSheet.create({
         alignItems: "center",
     },
     cardWrapper: {
-        width: Dimensions.get('screen').width * 0.9,
+        width: width * 0.51,
         justifyContent: 'center',
         
         paddingBottom: 50,
