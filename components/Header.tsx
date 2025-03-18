@@ -7,7 +7,6 @@ const Header = () => {
     return (
         <ImageBackground source={require('@/assets/images/bgapp.png')} style={styles.header} >
             <Image source={require('@/assets/images/copasul_branco.png')}  style={styles.logo}  resizeMode="contain"/>
-            <Text style={{ textAlign: 'center', fontSize: '1.34rem', color: 'white'}}>Gerenciamento de Entradas e Saidas (Balança)</Text>
             <Time/>
         </ImageBackground>
     )
@@ -22,7 +21,7 @@ const styles = StyleSheet.create({
         backgroundSize: 'cover',
         display: 'flex',
         flexWrap: 'wrap',
-        justifyContent: 'space-between',
+        justifyContent:  'space-between',
         flexDirection: 'row',
         alignItems: 'center',
         paddingTop: 30,
@@ -32,8 +31,8 @@ const styles = StyleSheet.create({
         gap: 20
     },
     logo: {
-        width: 150,
-        height: 50,
+        width: 250,
+        height: 60,
         objectFit: 'cover'
     }
 });
