@@ -3,9 +3,14 @@ import Header from "@/components/Header";
 import CardHistory from "@/components/CardHistory";
 import { DATA } from "@/data/db.test";
 import { SafeAreaProvider, SafeAreaView } from "react-native-safe-area-context";
+import { useContext } from "react";
+import { EmbarqueContext } from "@/contexts/embarqueContext";
+import { ObjectRequestDTO } from "@/data/modeldraft/arch/ObjectRequestDTO";
 
 const PageHistory = () => {
-    const dataAccept = DATA.filter((data) => data.accepted);
+    const { data } = useContext(EmbarqueContext);
+
+    const dataAccept = data.filter((dataSingle: ObjectRequestDTO) => dataSingle.accepted);
 
     return (
         <View style={styles.container}>
@@ -14,7 +19,7 @@ const PageHistory = () => {
                 <ScrollView contentContainerStyle={styles.scrollContainer}>
                     <View style={styles.notfound}>
                         <Image source={require('@/assets/images/404s.svg')} style={styles.notFoundImage} />
-                        <Text style={styles.notFoundText}>Não existe dados referentes a essa unidade.</Text>
+                        <Text style={styles.notFoundText}>Não existe dados referentes a essa unidade. </Text>
                     </View>
                 </ScrollView>
             ) : (

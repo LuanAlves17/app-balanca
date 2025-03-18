@@ -1,19 +1,26 @@
 import { TouchableOpacity, Text, StyleSheet, View, Dimensions } from "react-native";
 import FontAwesome from "@expo/vector-icons/FontAwesome";
+import { ObjectRequestDTO } from "@/data/modeldraft/arch/ObjectRequestDTO";
+import { useContext, useState } from "react";
+import { EmbarqueContext } from "@/contexts/embarqueContext";
 
 const { width } = Dimensions.get('window');
 
-const Card = ({ id, peso, placa, udm, acceptedAt, onAccept }) => {
-    const handleSubmit = () => {
-        onAccept(id);
-    };
+const Card = ({ id, peso, placa, udm, accepted, acceptedAt }: ObjectRequestDTO) => {
+    const [ data, setData ] = useState({id, peso, placa, udm, accepted, acceptedAt});
+    const { acceptOn } = useContext(EmbarqueContext)
+
+    async function handleSubmit(e: Event) {
+        e.preventDefault();
+
+        await acceptOn(data)
+    }
 
     return (
         <View style={styles.paper}>
             <View style={styles.cardContent}>
                 <Text style={styles.cardTitle}>{placa}</Text>
                 <Text style={styles.peso}>{peso} {udm}</Text>
-                <Text style={styles.signed}>Ainda não aprovado</Text>
                 <View style={styles.actions}>
                     <TouchableOpacity style={styles.button} onPress={handleSubmit}>
                         <FontAwesome name="check" size={20} color="white" />
