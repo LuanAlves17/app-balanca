@@ -84,7 +84,7 @@ const styles = StyleSheet.create({
         alignItems: "center",
     },
     cardWrapper: {
-        width: width > 500 ? width * 0.51 : width * 0.90,
+        width: width * 0.91,
         justifyContent: 'center',
         paddingBottom: 50,
     },
