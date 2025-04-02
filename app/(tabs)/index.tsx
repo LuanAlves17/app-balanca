@@ -12,7 +12,7 @@ const PageIndex = () => {
     const flatListRef = useRef(null);
     const [currentIndex, setCurrentIndex] = useState(0);
 
-    const dataIsNotAccept = data.filter((dataSingle) => !dataSingle.accepted);
+    const dataIsNotAccept = data.filter((dataSingle) => !dataSingle.gotoHistory);
 
     const onViewableItemsChanged = useRef(({ viewableItems }) => {
         if (viewableItems.length > 0) {
@@ -100,7 +100,7 @@ export default PageIndex;
 const styles = StyleSheet.create({
     title: {
         color: "green",
-        fontSize: 20,
+        fontSize: 30,
         paddingTop: 20,
         paddingBottom: 20,
         textAlign: "center",

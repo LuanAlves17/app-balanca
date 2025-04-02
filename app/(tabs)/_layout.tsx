@@ -36,7 +36,7 @@ import FontAwesome from '@expo/vector-icons/FontAwesome';
        <Tabs.Screen
          name="historico"
          options={{
-           title: 'Histórico',
+           title: 'Auditoria / Historico',
            tabBarIcon: ({ color }) => <FontAwesome name="history" size={24} color={color} />,
          }}
        />

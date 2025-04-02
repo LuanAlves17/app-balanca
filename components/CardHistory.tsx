@@ -1,21 +1,51 @@
 import { ObjectRequestDTO } from "@/data/modeldraft/arch/ObjectRequestDTO";
-import { Dimensions, StyleSheet, Text, View } from "react-native"
+import { useEffect, useRef, useState } from "react";
+import { Animated, Dimensions, StyleSheet, Text, View } from "react-native";
 
 const { width } = Dimensions.get("window");
 
-const CardHistory = ( { peso, placa, udm, acceptedAt }  : ObjectRequestDTO) => {
+const COLOR_CANCELLED = '#ff392b';
+const COLOR_ACCEPTED = '#38b31d';
+const COLOR_NOT_LOADED = '#ccc';
+
+const CardHistory = ({ peso, placa, udm, acceptedAt, accepted }: ObjectRequestDTO) => {
+    const [color, setColor] = useState(COLOR_NOT_LOADED);
+    const scaleAnim = useRef(new Animated.Value(1)).current;
+
+    useEffect(() => {
+        setColor(accepted ? COLOR_ACCEPTED : COLOR_CANCELLED);
+
+        Animated.loop(
+            Animated.sequence([
+                Animated.timing(scaleAnim, {
+                    toValue: 1.2,
+                    duration: 800,
+                    useNativeDriver: true,
+                }),
+                Animated.timing(scaleAnim, {
+                    toValue: 1,
+                    duration: 800,
+                    useNativeDriver: true,
+                }),
+            ])
+        ).start();
+    }, [accepted]);
+
     return (
         <View style={styles?.paper}>
             <View style={styles?.cardContent}>
+                <Text style={{ background: color, width: 130, padding: 3, borderRadius: 50, color: 'white', fontSize: 17, textAlign: 'center' }}>{accepted ? "Aprovado" : "Desistência"}</Text>
                 <Text style={styles?.cardTitle}>{placa}</Text>
-
                 <Text style={styles?.peso}>{peso} {udm}</Text>
 
-                <Text style={styles?.acaoRegistrada}>Horário de aprovação: <Text style={{ fontWeight: 'bold' }}>{acceptedAt}</Text></Text>        
+                <View style={styles?.eventLogs}>
+                    <Text style={styles?.acaoRegistrada}>Horário de {accepted ? "aprovação" : "desistencia"}: <Text style={{ fontWeight: 'bold' }}>{acceptedAt}</Text></Text>        
+                </View>
+
             </View>
         </View>
-    )
-}
+    );
+};
 
 export default CardHistory;
 
@@ -25,6 +55,17 @@ const styles = StyleSheet.create({
         height: 'auto',
         marginTop: 15,
         marginBottom: 15
+    },
+    eventLogs: {
+        flexDirection:  'column',
+        justifyContent: 'start',
+        alignItems: 'start',
+        paddingTop: 10,
+        paddingBottom: 15,
+        gap: 20,
+    },
+    status: {
+        
     },
     cardContent: {
         width: width * 0.90,
@@ -49,7 +90,7 @@ const styles = StyleSheet.create({
     peso: {
         textAlign: "center",
         fontSize: 50,
-        fontWeight: 400,
+        fontWeight: "400",
         marginVertical: 15,
     },
     placa: {
@@ -58,7 +99,5 @@ const styles = StyleSheet.create({
     },
     acaoRegistrada: {
         fontSize: 18,
-        paddingTop: 10,
-        paddingBottom: 15,
     }
 });

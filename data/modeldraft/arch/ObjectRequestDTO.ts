@@ -3,6 +3,7 @@ export type ObjectRequestDTO = {
     peso: number
     placa: string
     udm: string
+    cancelled: boolean
     accepted: boolean
     acceptedAt: string
 }

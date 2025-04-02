@@ -10,7 +10,7 @@ import { ObjectRequestDTO } from "@/data/modeldraft/arch/ObjectRequestDTO";
 const PageHistory = () => {
     const { data } = useContext(EmbarqueContext);
 
-    const dataAccept = data.filter((dataSingle: ObjectRequestDTO) => dataSingle.accepted);
+    const dataAccept = data.filter((dataSingle: ObjectRequestDTO) => dataSingle.gotoHistory);
 
     return (
         <View style={styles.container}>
@@ -26,7 +26,7 @@ const PageHistory = () => {
                 <SafeAreaProvider>
                     <SafeAreaView style={styles.container} edges={['top']}>
                         <FlatList
-                            data={dataAccept}
+                            data={dataAccept.reverse()}
                             keyExtractor={(item) => item.id}
                             renderItem={({item}) => (
                                 <CardHistory {...item} />
