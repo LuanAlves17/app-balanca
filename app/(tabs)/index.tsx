@@ -8,6 +8,7 @@ import MaterialIcons from '@expo/vector-icons/MaterialIcons';
 const { width } = Dimensions.get("window");
 
 const PageIndex = () => {
+
     const { data } = useContext(EmbarqueContext);
     const flatListRef = useRef(null);
     const [currentIndex, setCurrentIndex] = useState(0);

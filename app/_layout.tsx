@@ -2,10 +2,16 @@ import { Stack } from 'expo-router';
 import {EmbarqueProvider} from '@/contexts/embarqueContext';
 
 import * as SplashScreen from 'expo-splash-screen';
+import { useEffect } from 'react';
 SplashScreen.preventAutoHideAsync();
 
 export default function RootLayout() {
-  document.title = "Gestor de Entradas e Saidas | Mobile App"
+  useEffect(() => {
+    setTimeout(() => {
+      SplashScreen.hideAsync();
+    }, 1)
+  })
+
   return (
       <EmbarqueProvider>
         <Stack>
