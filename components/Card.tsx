@@ -110,7 +110,7 @@ export default Card;
 const styles = StyleSheet.create({
     paper: {
         justifyContent: "center",
-        maxWidth: 400,
+        
         height: 'auto',
         padding: 10,
     },
