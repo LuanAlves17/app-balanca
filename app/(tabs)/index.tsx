@@ -46,7 +46,7 @@ const PageIndex = () => {
             <Header />
             {dataIsNotAccept.length === 0 ? (
                 <View style={styles.box_is_empty}>
-                    <Image style={styles.box_is_empty_img} source={require("@/assets/images/Emptys.svg")} />
+                    <Image source={require('@/assets/images/Emptys.png')} style={styles.box_is_empty_img} />
                     <Text style={styles.box_is_empty_text}>Não há embarques no momento...</Text>
                 </View>
             ) : (
@@ -74,13 +74,16 @@ const PageIndex = () => {
                             )}
                             contentContainerStyle={styles.listContainer}
                             snapToAlignment="center"
-                            pagingEnabled
+                            pagingEnabled={false}
+                            scrollEnabled={false}
                             showsHorizontalScrollIndicator={false}
                             onViewableItemsChanged={onViewableItemsChanged}
                             viewabilityConfig={viewabilityConfig}
+                            
                             getItemLayout={getItemLayout}
-                            scrollEnabled={false}
                         />
+
+                        
 
                         <TouchableOpacity 
                             style={[styles.navButton, currentIndex === dataIsNotAccept.length - 1 && styles.disabledButton]} 
@@ -138,7 +141,7 @@ const styles = StyleSheet.create({
         justifyContent: "center",
     },
     cardWrapper: {
-        width: '100vw',
+        width: width * 0.91, // Correção do tamanho do card
         justifyContent: "center",
         paddingBottom: 50,
     },

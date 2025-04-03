@@ -54,7 +54,8 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         height: 'auto',
         marginTop: 15,
-        marginBottom: 15
+        marginBottom: 15,
+        width: width
     },
     eventLogs: {
         flexDirection:  'column',

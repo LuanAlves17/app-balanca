@@ -31,12 +31,11 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         gap: 10,
         color: 'white', 
-        border: '1px solid',
+        borderWidth: 1,    
+        borderColor: 'white', 
+        borderRadius: 5, 
         fontSize: 20,
-        borderRadius: 0,
-        paddingTop: 10,
-        paddingLeft: 30,
-        paddingBottom: 10,
-        paddingRight: 30,
+        paddingVertical: 10,
+        paddingHorizontal: 30,
     }
 });

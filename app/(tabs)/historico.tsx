@@ -18,7 +18,7 @@ const PageHistory = () => {
             { dataAccept.length === 0 ? (
                 <ScrollView contentContainerStyle={styles.scrollContainer}>
                     <View style={styles.notfound}>
-                        <Image source={require('@/assets/images/404s.svg')} style={styles.notFoundImage} />
+                        <Image source={require('@/assets/images/404s.png')} style={styles.notFoundImage} />
                         <Text style={styles.notFoundText}>Não existe dados referentes a essa unidade. </Text>
                     </View>
                 </ScrollView>

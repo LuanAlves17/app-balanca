@@ -110,13 +110,12 @@ export default Card;
 const styles = StyleSheet.create({
     paper: {
         justifyContent: "center",
-        
         height: 'auto',
         padding: 10,
     },
     cardContent: {
         marginRight: 15,
-        width: width * 0.89,
+        width: width,
         height: 'auto',
         flexDirection: "column",
         justifyContent: "space-between",
