@@ -11,6 +11,8 @@ const Card = ({ id, peso, placa, udm, accepted, acceptedAt }: ObjectRequestDTO) 
     const { acceptOn, cancelOn } = useContext(EmbarqueContext);
     const [modalVisible, setModalVisible] = useState(false);
     const [cancelModal, setCancelModal] = useState(false);
+
+    const deboundDate: Date = new Date();
     
     async function handleConfirm() { 
         setModalVisible(false);
@@ -20,6 +22,8 @@ const Card = ({ id, peso, placa, udm, accepted, acceptedAt }: ObjectRequestDTO) 
         setModalVisible(false);
         await cancelOn(data);
     }
+
+    
 
     return (
         <View style={styles.paper}>
@@ -48,6 +52,14 @@ const Card = ({ id, peso, placa, udm, accepted, acceptedAt }: ObjectRequestDTO) 
                 <View style={styles.modalContainer}>
                     <View style={styles.modalContent}>
                         <Text style={styles.modalText}>Tem certeza que deseja aprovar?</Text>
+
+                        <View style={styles.auditoria}>
+                            <Text style={styles.auditoriaTexto}>Placa: {placa}</Text>
+                            <Text style={styles.auditoriaTexto}>Peso: {peso} {udm}</Text>
+                            <Text style={styles.auditoriaTexto}>Horário de Aprovação: {`${deboundDate.getHours()}:${deboundDate.getMinutes()}`}</Text>
+                        </View>
+
+                        <Text style={styles.modalTextCancel}>Essa ação não pode ser desfeita.</Text>
                         
                         <View style={styles.modalActions}>
                             <TouchableOpacity style={styles.modalButton} onPress={handleConfirm}>
@@ -61,34 +73,17 @@ const Card = ({ id, peso, placa, udm, accepted, acceptedAt }: ObjectRequestDTO) 
                 </View>
             </Modal>
 
-
             <Modal
                 animationType="none"
                 transparent={true}
                 visible={cancelModal}
-                onRequestClose={() => setCancelModal(false)}
+                onRequestClose={() =>  setCancelModal(false)}
             >
                 <View style={styles.modalContainer}>
                     <View style={styles.modalContent}>
                         <Text style={styles.modalText}>Tem certeza que deseja Cancelar?</Text>
 
                         <Text style={styles.modalTextCancel}>Essa ação não pode ser desfeita</Text>
-                        
-                        {/* <View style={styles.reasonCancel}>
-                            <Text style={styles.labelReason}>Digite um motivo</Text>
-                            <TextInput
-                                style={styles.inputReason}
-                                onChange={(e) => {
-                                    if(e.target.value.length == 0 || e.target.value == '' || e.target.value == undefined) {
-                                        setEnabled(true);
-                                    }
-                                    else {
-                                        setEnabled(false);
-                                    }
-                                }}
-                            />
-                        </View> */}
-
 
                         <View style={styles.modalActions}>
                             <TouchableOpacity style={styles.modalButton} onPress={handleConfirmCancel}>
@@ -108,32 +103,43 @@ const Card = ({ id, peso, placa, udm, accepted, acceptedAt }: ObjectRequestDTO) 
 export default Card;
 
 const styles = StyleSheet.create({
-    paper: {
-        justifyContent: "center",
-        height: 'auto',
-        padding: 10,
-    },
-    cardContent: {
-        marginRight: 15,
-        width: width,
-        height: 'auto',
-        flexDirection: "column",
-        justifyContent: "space-between",
-        shadowColor: "#c9c9c9",
-        shadowOffset: { width: 0, height: 2 },
-        shadowOpacity: 0.67,
-        shadowRadius: 2,
-        borderRadius: 0,
-        backgroundColor: "#fff",
-        padding: 20,
-    },
     cardTitle: {
         textAlign: "center",
         fontSize: 24,
         borderBottomWidth: 1,
-        borderBottomColor: "#ccc",
+        borderBottomColor: "#dadada",
         paddingBottom: 10,
     },
+
+    paper: {
+        justifyContent: "center",
+        height: "auto",
+        alignItems: "center", 
+        alignContent: 'center',
+    },
+    cardContent: {
+        width: width * 0.9,
+        height: 300,
+        flexDirection: "column",
+        justifyContent: "space-between",
+        alignItems: 'center',
+        backgroundColor: "#ffffff",
+        padding: 20,
+        zIndex: 1,
+    },
+
+    auditoria: {
+        paddingBottom: 20,
+        textAlign: 'center',
+        justifyContent: 'center',
+        alignItems: 'center',
+    },
+
+    auditoriaTexto: {
+        fontSize: 20,
+        fontWeight: '500',
+    },
+
     peso: {
         textAlign: "center",
         fontSize: 50,
@@ -145,7 +151,7 @@ const styles = StyleSheet.create({
         width: "90%",
         maxWidth: 200,
         paddingVertical: 12,
-        borderRadius: 50,
+        borderRadius: 10,
         flexDirection: "row",
         alignItems: "center",
         justifyContent: "center",
@@ -156,7 +162,7 @@ const styles = StyleSheet.create({
         width: "90%",
         maxWidth: 200,
         paddingVertical: 12,
-        borderRadius: 50,
+        borderRadius: 10,
         flexDirection: "row",
         alignItems: "center",
         justifyContent: "center",
@@ -171,7 +177,7 @@ const styles = StyleSheet.create({
         fontWeight: "500",
     },
     actions: {
-        width: '100%',
+        
         justifyContent: 'center',
         flexDirection: 'row',
         alignItems: "center",
@@ -180,17 +186,11 @@ const styles = StyleSheet.create({
         gap: 15,
         flexWrap: true,
     },
-    // inputReason: {
-    //     height:40,
-    //     marginTop: 20,
-    //     outline: 0,
-    //     border: '1px solid #ccc',
-    // },
-
     modalContainer: {
         flex: 1,
         justifyContent: 'center',
         alignItems: 'center',
+        backgroundColor: 'rgba(0, 0, 0, 0.264)', 
     },
     modalContent: {
         boxShadow: '0px 0px 3px #c9c9c9',
@@ -200,10 +200,6 @@ const styles = StyleSheet.create({
         borderRadius: 10,
         alignItems: 'center',
     },
-    // reasonCancel: {
-    //     width: 439,
-    //     padding: 10
-    // },
     modalText: {
         fontSize: 18,
         marginBottom: 20,
