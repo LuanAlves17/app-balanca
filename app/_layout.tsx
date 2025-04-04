@@ -9,9 +9,9 @@ export default function RootLayout() {
   useEffect(() => {
     setTimeout(() => {
       SplashScreen.hideAsync();
-    }, 5000)
-  })
-
+    }, 2000);
+  }, []);
+  
   return (
       <EmbarqueProvider>
         <Stack>

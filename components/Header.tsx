@@ -1,4 +1,4 @@
-import { Image, ImageBackground, StyleSheet, Text } from "react-native"
+import { Image, ImageBackground, LogBox, StyleSheet, Text, View } from "react-native"
 
 import Time from '@/components/Time'
 
@@ -6,7 +6,10 @@ const Header = () => {
 
     return (
         <ImageBackground source={require('@/assets/images/bgapp.png')} style={styles.header} >
-            <Image source={require('@/assets/images/copasul_branco.png')}  style={styles.logo}  resizeMode="contain"/>
+            <View style={styles.logoBox}>
+                <Image source={require('@/assets/images/copasul_branco.png')}  style={styles.logo}  resizeMode="contain"/>
+                <Text style={styles.brandapp}>GFlow ( Beta ~ Dev ) </Text>
+            </View>
             <Time/>
         </ImageBackground>
     )
@@ -27,8 +30,14 @@ const styles = StyleSheet.create({
         paddingTop: 30,
         paddingLeft: 30,
         paddingRight: 30,
-        paddingBottom: 50,
+        paddingBottom: 20,
         gap: 20
+    },
+    brandapp: {
+        fontSize: 20,
+        fontWeight: '700',
+        color: '#fff',
+        fontFamily: 'sans-serif',
     },
     logo: {
         width: 250,

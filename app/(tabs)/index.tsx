@@ -8,12 +8,11 @@ import MaterialIcons from '@expo/vector-icons/MaterialIcons';
 const { width } = Dimensions.get("window");
 
 const PageIndex = () => {
-
     const { data } = useContext(EmbarqueContext);
     const flatListRef = useRef(null);
     const [currentIndex, setCurrentIndex] = useState(0);
 
-    const dataIsNotAccept = data.filter((dataSingle) => !dataSingle.gotoHistory);
+    const dataIsNotAccept = (data || []).filter((dataSingle) => !dataSingle.gotoHistory);
 
     const onViewableItemsChanged = useRef(({ viewableItems }) => {
         if (viewableItems.length > 0) {
@@ -24,12 +23,6 @@ const PageIndex = () => {
     const viewabilityConfig = {
         viewAreaCoveragePercentThreshold: 50,
     };
-
-    const getItemLayout = (_, index) => ({
-        length: width * 0.91,
-        offset: width * 0.91 * index,
-        index,
-    });
 
     const scrollToIndex = (index) => {
         if (flatListRef.current) {
@@ -51,8 +44,6 @@ const PageIndex = () => {
                 </View>
             ) : (
                 <View style={styles.container}>
-                    <Text style={styles.title}>Gerenciamento de Entradas e Saídas (Balança)</Text>
-
                     <View style={styles.carouselContainer}>
                         <TouchableOpacity 
                             style={[styles.navButton, currentIndex === 0 && styles.disabledButton]} 
@@ -68,23 +59,17 @@ const PageIndex = () => {
                             data={dataIsNotAccept}
                             keyExtractor={(item) => item.id}
                             renderItem={({ item }) => (
-                                <View style={styles.cardWrapper}>
-                                    <Card {...item} />
-                                </View>
+                                <View style={styles.cardWrapper}><Card {...item} /></View>
                             )}
                             contentContainerStyle={styles.listContainer}
                             snapToAlignment="center"
-                            pagingEnabled={false}
                             scrollEnabled={false}
+                            snapToInterval={width}
+                            decelerationRate="fast"
                             showsHorizontalScrollIndicator={false}
                             onViewableItemsChanged={onViewableItemsChanged}
                             viewabilityConfig={viewabilityConfig}
-                            
-                            getItemLayout={getItemLayout}
                         />
-
-                        
-
                         <TouchableOpacity 
                             style={[styles.navButton, currentIndex === dataIsNotAccept.length - 1 && styles.disabledButton]} 
                             onPress={() => scrollToIndex(currentIndex + 1)}
@@ -102,13 +87,6 @@ const PageIndex = () => {
 export default PageIndex;
 
 const styles = StyleSheet.create({
-    title: {
-        color: "green",
-        fontSize: 30,
-        paddingTop: 20,
-        paddingBottom: 20,
-        textAlign: "center",
-    },
     box_is_empty: {
         flex: 1,
         justifyContent: "center",
@@ -132,23 +110,25 @@ const styles = StyleSheet.create({
         gap: 10,
     },
     listContainer: {
-        gap: 5,
-        alignItems: "center",
+        alignItems: 'center',
+        justifyContent: 'flex-start'
     },
+    
     carouselContainer: {
         flexDirection: "row",
         alignItems: "center",
         justifyContent: "center",
     },
-    cardWrapper: {
-        width: width * 0.91, // Correção do tamanho do card
+    cardWrapper: { 
+        width: width * 0.83, 
         justifyContent: "center",
-        paddingBottom: 50,
+        alignItems: "center",
     },
+    
     navButton: {
-        width: 50,
-        height: 50,
-        borderRadius: 25,
+        width: 100,
+        height: 100,
+        borderRadius: 30,
         backgroundColor: "#009b41",
         justifyContent: "center",
         alignItems: "center",

@@ -7,12 +7,14 @@ import { Tabs } from 'expo-router';
  import { Colors } from '@/constants/Colors';
  import { useColorScheme } from '@/hooks/useColorScheme';
 import FontAwesome from '@expo/vector-icons/FontAwesome';
+import { EmbarqueProvider } from '@/contexts/embarqueContext';
 
  
  export default function TabLayout() {
    const colorScheme = useColorScheme();
  
    return (
+    <EmbarqueProvider>
      <Tabs
        screenOptions={{
          tabBarActiveTintColor: Colors[colorScheme ?? 'light'].tint,
@@ -41,5 +43,6 @@ import FontAwesome from '@expo/vector-icons/FontAwesome';
          }}
        />
      </Tabs>
+     </EmbarqueProvider>
    );
  }

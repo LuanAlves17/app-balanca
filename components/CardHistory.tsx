@@ -1,12 +1,13 @@
 import { ObjectRequestDTO } from "@/data/modeldraft/arch/ObjectRequestDTO";
+import { SplashScreen } from "expo-router";
 import { useEffect, useRef, useState } from "react";
-import { Animated, Dimensions, StyleSheet, Text, View } from "react-native";
+import { Animated, Dimensions, StyleSheet, Text, TouchableOpacity, View } from "react-native";
 
 const { width } = Dimensions.get("window");
 
 const COLOR_CANCELLED = '#ff392b';
 const COLOR_ACCEPTED = '#38b31d';
-const COLOR_NOT_LOADED = '#ccc';
+const COLOR_NOT_LOADED = '#a8a8a8';
 
 const CardHistory = ({ peso, placa, udm, acceptedAt, accepted }: ObjectRequestDTO) => {
     const [color, setColor] = useState(COLOR_NOT_LOADED);
@@ -34,7 +35,7 @@ const CardHistory = ({ peso, placa, udm, acceptedAt, accepted }: ObjectRequestDT
     return (
         <View style={styles?.paper}>
             <View style={styles?.cardContent}>
-                <Text style={{ background: color, width: 130, padding: 3, borderRadius: 50, color: 'white', fontSize: 17, textAlign: 'center' }}>{accepted ? "Aprovado" : "Desistência"}</Text>
+                <Text style={{backgroundColor: color, width: 130, padding: 3, borderRadius: 50, color: 'white', fontSize: 17, textAlign: 'center'}}>{accepted ? "Aprovado" : "Desistência"}</Text>
                 <Text style={styles?.cardTitle}>{placa}</Text>
                 <Text style={styles?.peso}>{peso} {udm}</Text>
 
@@ -64,9 +65,6 @@ const styles = StyleSheet.create({
         paddingTop: 10,
         paddingBottom: 15,
         gap: 20,
-    },
-    status: {
-        
     },
     cardContent: {
         width: width * 0.90,
