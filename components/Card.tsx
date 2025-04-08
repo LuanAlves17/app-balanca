@@ -11,7 +11,6 @@ const Card = ({ id, peso, placa, udm, accepted, acceptedAt }: ObjectRequestDTO) 
     const { acceptOn, cancelOn } = useContext(EmbarqueContext);
     const [modalVisible, setModalVisible] = useState(false);
     const [cancelModal, setCancelModal] = useState(false);
-
     const deboundDate: Date = new Date();
     
     async function handleConfirm() { 
@@ -83,6 +82,11 @@ const Card = ({ id, peso, placa, udm, accepted, acceptedAt }: ObjectRequestDTO) 
                     <View style={styles.modalContent}>
                         <Text style={styles.modalText}>Tem certeza que deseja Cancelar?</Text>
 
+                        <View style={styles.auditoria}>
+                            <Text style={styles.auditoriaTexto}>Placa: {placa}</Text>
+                            <Text style={styles.auditoriaTexto}>Peso: {peso} {udm}</Text>
+                            <Text style={styles.auditoriaTexto}>Horário de Desistencia: {`${deboundDate.getHours()}:${deboundDate.getMinutes()}`}</Text>
+                        </View>
                         <Text style={styles.modalTextCancel}>Essa ação não pode ser desfeita</Text>
 
                         <View style={styles.modalActions}>
@@ -109,6 +113,7 @@ const styles = StyleSheet.create({
         borderBottomWidth: 1,
         borderBottomColor: "#dadada",
         paddingBottom: 10,
+        width: '100%'
     },
 
     paper: {

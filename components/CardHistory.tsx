@@ -8,7 +8,7 @@ const { width } = Dimensions.get("window");
 const COLOR_CANCELLED = '#ff392b';
 const COLOR_ACCEPTED = '#38b31d';
 const COLOR_NOT_LOADED = '#a8a8a8';
-
+ 
 const CardHistory = ({ peso, placa, udm, acceptedAt, accepted }: ObjectRequestDTO) => {
     const [color, setColor] = useState(COLOR_NOT_LOADED);
     const scaleAnim = useRef(new Animated.Value(1)).current;

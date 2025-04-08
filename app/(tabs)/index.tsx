@@ -1,4 +1,4 @@
-import React, { useContext, useRef, useState } from "react";
+import React, { useContext, useRef, useState, useEffect } from "react";
 import { FlatList, StyleSheet, View, Dimensions, Text, Image, TouchableOpacity } from "react-native";
 import Card from "@/components/Card";
 import Header from "@/components/Header";
@@ -12,7 +12,28 @@ const PageIndex = () => {
     const flatListRef = useRef(null);
     const [currentIndex, setCurrentIndex] = useState(0);
 
-    const dataIsNotAccept = (data || []).filter((dataSingle) => !dataSingle.gotoHistory);
+    const dataIsNotAccept = data.filter((dataSingle) => !dataSingle.gotoHistory);
+
+    const scrollToIndex = (index) => {
+        if (!flatListRef.current || index < 0 || index >= dataIsNotAccept.length) return;
+        flatListRef.current.scrollToIndex({
+            index,
+            animated: true,
+        });
+        setCurrentIndex(index);
+    };
+
+    // Corrige o índice se o item atual foi removido
+    useEffect(() => {
+        if (currentIndex >= dataIsNotAccept.length && dataIsNotAccept.length > 0) {
+            const newIndex = dataIsNotAccept.length - 1;
+            scrollToIndex(newIndex);
+        }
+
+        if (dataIsNotAccept.length === 0) {
+            setCurrentIndex(0);
+        }
+    }, [dataIsNotAccept.length]);
 
     const onViewableItemsChanged = useRef(({ viewableItems }) => {
         if (viewableItems.length > 0) {
@@ -22,16 +43,6 @@ const PageIndex = () => {
 
     const viewabilityConfig = {
         viewAreaCoveragePercentThreshold: 50,
-    };
-
-    const scrollToIndex = (index) => {
-        if (flatListRef.current) {
-            flatListRef.current.scrollToIndex({
-                index,
-                animated: true,
-            });
-            setCurrentIndex(index);
-        }
     };
 
     return (
@@ -63,6 +74,7 @@ const PageIndex = () => {
                             )}
                             contentContainerStyle={styles.listContainer}
                             snapToAlignment="center"
+                            pagingEnabled={false}
                             scrollEnabled={false}
                             snapToInterval={width}
                             decelerationRate="fast"
@@ -70,6 +82,7 @@ const PageIndex = () => {
                             onViewableItemsChanged={onViewableItemsChanged}
                             viewabilityConfig={viewabilityConfig}
                         />
+
                         <TouchableOpacity 
                             style={[styles.navButton, currentIndex === dataIsNotAccept.length - 1 && styles.disabledButton]} 
                             onPress={() => scrollToIndex(currentIndex + 1)}
@@ -113,7 +126,6 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         justifyContent: 'flex-start'
     },
-    
     carouselContainer: {
         flexDirection: "row",
         alignItems: "center",
@@ -124,7 +136,6 @@ const styles = StyleSheet.create({
         justifyContent: "center",
         alignItems: "center",
     },
-    
     navButton: {
         width: 100,
         height: 100,
