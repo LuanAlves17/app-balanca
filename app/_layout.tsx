@@ -1,13 +1,11 @@
-import { Image, Platform, ScrollView, StyleSheet, TouchableOpacity } from 'react-native';
+import { Image, Platform, ScrollView, StyleSheet } from 'react-native';
 import { Stack } from 'expo-router';
-import {EmbarqueProvider} from '@/contexts/embarqueContext';
-import Foundation from '@expo/vector-icons/Foundation';
-
 
 import * as SplashScreen from 'expo-splash-screen';
 import { useEffect } from 'react';
 
 import { Text } from 'react-native';
+import { EmbarquesProvider } from '@/api/context/EmbarqueContext';
 SplashScreen.preventAutoHideAsync();
 
 export default function RootLayout() {
@@ -17,28 +15,22 @@ export default function RootLayout() {
     }, 2000);
   }, []);
   
-
-  if (Platform.OS === 'web') {
-    return (
-      <ScrollView contentContainerStyle={styles.container}>
-        <Image style={styles.image_err} source={require('@/assets/images/mobile.png')}  resizeMode="contain"/>
-        <Text style={styles.text_err}>Versão Web não suportada!</Text>
-        <TouchableOpacity style={styles.btnBack}>
-          <Foundation name="home" size={24} color="black" />
-          <Text style={styles.txtBtnBack}>Voltar</Text>
-        </TouchableOpacity>
-
-      </ScrollView>
-    );
-  }
+  // if (Platform.OS === 'web') {
+  //   return (
+  //     <ScrollView contentContainerStyle={styles.container}>
+  //       <Image style={styles.image_err} source={require('@/assets/images/mobile.png')}  resizeMode="contain"/>
+  //       <Text style={styles.text_err}>Versão Web não suportada!</Text>
+  //     </ScrollView>
+  //   );
+  // }
 
 
   return (
-      <EmbarqueProvider>
+    <EmbarquesProvider>
         <Stack>
-            <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
+          <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
         </Stack>
-      </EmbarqueProvider>
+    </EmbarquesProvider>
   );
 }
 

@@ -1,39 +1,62 @@
-import React, { useContext, useRef, useState, useEffect } from "react";
+import React, { useRef, useState, useEffect } from "react";
+
 import { FlatList, StyleSheet, View, Dimensions, Text, Image, TouchableOpacity } from "react-native";
+
+import { API_URL, PATH_GET } from '@env';
+
 import Card from "@/components/Card";
 import Header from "@/components/Header";
-import { EmbarqueContext } from "@/contexts/embarqueContext";
 import MaterialIcons from '@expo/vector-icons/MaterialIcons';
+
+import { useEmbarques } from "@/api/context/EmbarqueContext";
+
+import { enumSituation } from "@/dto/EmbarqueDTO";
 
 const { width } = Dimensions.get("window");
 
 const PageIndex = () => {
-    const { data } = useContext(EmbarqueContext);
+    const { refreshData, data, setData } = useEmbarques();
     const flatListRef = useRef(null);
     const [currentIndex, setCurrentIndex] = useState(0);
+    
 
-    const dataIsNotAccept = data.filter((dataSingle) => !dataSingle.gotoHistory);
-
+    const dataFiltered = (data || []).filter(
+        (dataSingle) => dataSingle.situacao === enumSituation.AGUARDANDO
+    );
+      
+    
+    useEffect(() => {
+        if (currentIndex >= dataFiltered.length && dataFiltered.length > 0) {
+            const newIndex = dataFiltered.length - 1;
+            scrollToIndex(newIndex);
+        }
+        
+        if (data.length === 0) {
+            setCurrentIndex(0);
+        }
+    }, [dataFiltered.length]);
+    
+    
     const scrollToIndex = (index) => {
-        if (!flatListRef.current || index < 0 || index >= dataIsNotAccept.length) return;
+        if (!flatListRef.current || index < 0 || index >= dataFiltered.length) return;
         flatListRef.current.scrollToIndex({
             index,
             animated: true,
         });
         setCurrentIndex(index);
     };
+    
+    
 
-    // Corrige o índice se o item atual foi removido
     useEffect(() => {
-        if (currentIndex >= dataIsNotAccept.length && dataIsNotAccept.length > 0) {
-            const newIndex = dataIsNotAccept.length - 1;
-            scrollToIndex(newIndex);
-        }
+        const intervalId = setInterval(() => {
+            refreshData();
+        }, 500); 
 
-        if (dataIsNotAccept.length === 0) {
-            setCurrentIndex(0);
-        }
-    }, [dataIsNotAccept.length]);
+        return () => clearInterval(intervalId);
+        
+    }, []);
+
 
     const onViewableItemsChanged = useRef(({ viewableItems }) => {
         if (viewableItems.length > 0) {
@@ -48,7 +71,7 @@ const PageIndex = () => {
     return (
         <View style={{ flex: 1 }}>
             <Header />
-            {dataIsNotAccept.length === 0 ? (
+            {dataFiltered.length === 0 ? (
                 <View style={styles.box_is_empty}>
                     <Image source={require('@/assets/images/Emptys.png')} style={styles.box_is_empty_img} />
                     <Text style={styles.box_is_empty_text}>Não há embarques no momento...</Text>
@@ -67,11 +90,20 @@ const PageIndex = () => {
                         <FlatList
                             ref={flatListRef}
                             horizontal
-                            data={dataIsNotAccept}
+                            data={dataFiltered.reverse()}
                             keyExtractor={(item) => item.id}
                             renderItem={({ item }) => (
-                                <View style={styles.cardWrapper}><Card {...item} /></View>
-                            )}
+                                <View style={styles.cardWrapper}>
+                                  <Card
+                                    key={item.id}
+                                    {...item}
+                                    onActionDone={() => {
+                                      setData(prev => prev.filter(d => d.id !== item.id));
+                                    }}
+                                  />
+                                </View>
+                              )}
+                              
                             contentContainerStyle={styles.listContainer}
                             snapToAlignment="center"
                             pagingEnabled={false}
@@ -84,9 +116,9 @@ const PageIndex = () => {
                         />
 
                         <TouchableOpacity 
-                            style={[styles.navButton, currentIndex === dataIsNotAccept.length - 1 && styles.disabledButton]} 
+                            style={[styles.navButton, currentIndex === dataFiltered.length - 1 && styles.disabledButton]} 
                             onPress={() => scrollToIndex(currentIndex + 1)}
-                            disabled={currentIndex === dataIsNotAccept.length - 1}
+                            disabled={currentIndex === dataFiltered.length - 1}
                         >
                             <MaterialIcons name="navigate-next" size={28} color="white" />
                         </TouchableOpacity>

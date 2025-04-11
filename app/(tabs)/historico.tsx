@@ -2,15 +2,12 @@ import { Dimensions, FlatList, Image, ScrollView, StyleSheet, Text, View } from 
 import Header from "@/components/Header";
 import CardHistory from "@/components/CardHistory";
 import { SafeAreaProvider, SafeAreaView } from "react-native-safe-area-context";
-import { useContext } from "react";
-import { EmbarqueContext } from "@/contexts/embarqueContext";
-import { ObjectRequestDTO } from "@/data/modeldraft/arch/ObjectRequestDTO";
+import { useEmbarques } from "@/api/context/EmbarqueContext";
 
 const PageHistory = () => {
-    const { data } = useContext(EmbarqueContext);
-
-    const dataAccept = data.filter((dataSingle: ObjectRequestDTO) => dataSingle.gotoHistory);
-
+    const { data } = useEmbarques();
+    const dataAccept = data.filter((dataSingle) => dataSingle.situacao !== "AGUARDANDO");    
+    
     return (
         <View style={styles.container}>
             <Header />

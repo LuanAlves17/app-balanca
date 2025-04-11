@@ -1,34 +1,69 @@
 import { TouchableOpacity, Text, StyleSheet, View, Dimensions, Modal, TextInput } from "react-native";
 import FontAwesome from "@expo/vector-icons/FontAwesome";
-import { ObjectRequestDTO } from "@/data/modeldraft/arch/ObjectRequestDTO";
-import { useContext, useState } from "react";
-import { EmbarqueContext } from "@/contexts/embarqueContext";
+
+import * as Updates from 'expo-updates';
+
+import { useState } from "react";
+
+import { API_URL, PATH_POST } from '@env';
+
+import EmbarqueDTO, { enumSituation } from "@/dto/EmbarqueDTO";
+import axios from "axios";
+import { useEmbarques } from "@/api/context/EmbarqueContext";
 
 const { width } = Dimensions.get('window');
 
-const Card = ({ id, peso, placa, udm, accepted, acceptedAt }: ObjectRequestDTO) => {
-    const [data, setData] = useState({ id, peso, placa, udm, accepted, acceptedAt });
-    const { acceptOn, cancelOn } = useContext(EmbarqueContext);
+const Card = ({ id, peso, placa, situacao, onActionDone }: EmbarqueDTO & { onActionDone: () => void }) => {
+    const { refreshData } = useEmbarques();
     const [modalVisible, setModalVisible] = useState(false);
     const [cancelModal, setCancelModal] = useState(false);
     const deboundDate: Date = new Date();
+
+
     
-    async function handleConfirm() { 
-        setModalVisible(false);
-        await acceptOn(data);
-    }
-    async function handleConfirmCancel() {
-        setModalVisible(false);
-        await cancelOn(data);
-    }
+    async function handleConfirm() {
+        try {
+          setModalVisible(false);
+      
+          const response = await axios.post(`${API_URL}${PATH_POST}`, {
+            id: id,
+            situation: enumSituation.CONFIRMADO
+          });
+          
+          console.log('Aprovado com sucesso:', response.data);
+          
+          onActionDone();
+          await refreshData();
+        } catch (error) {
+          console.error('Erro ao aprovar embarque:', error);
+        }
+      }
+      
+      async function handleConfirmCancel() {
+        try {
+          setCancelModal(false);
+      
+          const response = await axios.post(`${API_URL}${PATH_POST}`, {
+            id: id,
+            situation: enumSituation.DESISTENTE 
+          });
+          
+          console.log('Cancelado com sucesso:', response.data);
+          onActionDone();
+          await refreshData();
+        } catch (error) {
+          console.error('Erro ao cancelar embarque:', error);
+        }
+      }
+      
 
     
 
     return (
         <View style={styles.paper}>
             <View style={styles.cardContent}>
-                <Text style={styles.cardTitle}>{placa}</Text>
-                <Text style={styles.peso}>{peso} {udm}</Text>
+                <Text style={styles.cardTitle}>{placa} - {id}</Text>
+                <Text style={styles.peso}>{peso}</Text>
                 <View style={styles.actions}>
                     <TouchableOpacity style={styles.buttonConfirm} onPress={() => setModalVisible(true)}>
                         <FontAwesome name="check" size={20} color="white" />
@@ -54,7 +89,7 @@ const Card = ({ id, peso, placa, udm, accepted, acceptedAt }: ObjectRequestDTO) 
 
                         <View style={styles.auditoria}>
                             <Text style={styles.auditoriaTexto}>Placa: {placa}</Text>
-                            <Text style={styles.auditoriaTexto}>Peso: {peso} {udm}</Text>
+                            <Text style={styles.auditoriaTexto}>Peso: {peso}</Text>
                             <Text style={styles.auditoriaTexto}>Horário de Aprovação: {`${deboundDate.getHours()}:${deboundDate.getMinutes()}`}</Text>
                         </View>
 
@@ -84,7 +119,7 @@ const Card = ({ id, peso, placa, udm, accepted, acceptedAt }: ObjectRequestDTO) 
 
                         <View style={styles.auditoria}>
                             <Text style={styles.auditoriaTexto}>Placa: {placa}</Text>
-                            <Text style={styles.auditoriaTexto}>Peso: {peso} {udm}</Text>
+                            <Text style={styles.auditoriaTexto}>Peso: {peso}</Text>
                             <Text style={styles.auditoriaTexto}>Horário de Desistencia: {`${deboundDate.getHours()}:${deboundDate.getMinutes()}`}</Text>
                         </View>
                         <Text style={styles.modalTextCancel}>Essa ação não pode ser desfeita</Text>

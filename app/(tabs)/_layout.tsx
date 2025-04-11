@@ -1,20 +1,20 @@
 import { Tabs } from 'expo-router';
- import React from 'react';
- import { Platform } from 'react-native';
+import React from 'react';
+import { Platform } from 'react-native';
  
- import { HapticTab } from '@/components/native/tabs/HapticTab';
- import TabBarBackground from '@/components/native/tabs/ui/TabBarBackground';
- import { Colors } from '@/constants/Colors';
- import { useColorScheme } from '@/hooks/useColorScheme';
+import { HapticTab } from '@/components/native/tabs/HapticTab';
+import TabBarBackground from '@/components/native/tabs/ui/TabBarBackground';
+import { Colors } from '@/constants/Colors';
+import { useColorScheme } from '@/hooks/useColorScheme';
 import FontAwesome from '@expo/vector-icons/FontAwesome';
-import { EmbarqueProvider } from '@/contexts/embarqueContext';
+import { EmbarquesProvider } from '@/api/context/EmbarqueContext';
 
  
  export default function TabLayout() {
    const colorScheme = useColorScheme();
  
    return (
-    <EmbarqueProvider>
+    <EmbarquesProvider>
      <Tabs
        screenOptions={{
          tabBarActiveTintColor: Colors[colorScheme ?? 'light'].tint,
@@ -43,6 +43,6 @@ import { EmbarqueProvider } from '@/contexts/embarqueContext';
          }}
        />
      </Tabs>
-     </EmbarqueProvider>
+    </EmbarquesProvider>
    );
  }

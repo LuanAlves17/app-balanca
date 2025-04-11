@@ -7,9 +7,10 @@ const Header = () => {
     return (
         <ImageBackground source={require('@/assets/images/bgapp.png')} style={styles.header} >
             <View style={styles.logoBox}>
-                <Image source={require('@/assets/images/copasul_branco.png')}  style={styles.logo}  resizeMode="contain"/>
-                <Text style={styles.brandapp}>GFlow ( Beta ~ Dev ) </Text>
+                <Image source={require('@/assets/images/logo.png')} style={styles.logoImg} resizeMode="contain"/>
+                {/* <Text style={styles.brandapp}>{API_URL}</Text> */}
             </View>
+                <Image source={require('@/assets/images/copasul_branco.png')}  style={styles.logo}  resizeMode="contain"/>
             <Time/>
         </ImageBackground>
     )
@@ -18,6 +19,9 @@ const Header = () => {
 export default Header;
 
 const styles = StyleSheet.create({
+    logoImg: {
+        width: 190
+    },
     header: {
         width: '100vw',
         height: 'auto',
